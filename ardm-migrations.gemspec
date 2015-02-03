@@ -13,7 +13,7 @@ Gem::Specification.new do |gem|
 
   gem.files         = `git ls-files`.split("\n")
   gem.test_files    = `git ls-files -- {spec}/*`.split("\n")
-  gem.extra_rdoc_files = %w[LICENSE README.rdoc]
+  gem.extra_rdoc_files = %w[LICENSE README.md]
 
   gem.homepage = "http://github.com/martinemde/ardm-migrations"
 
