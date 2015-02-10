@@ -226,8 +226,7 @@ module DataMapper
 
         # @api private
         def property_schema_statement(connection, schema)
-          statement = quote_name(schema[:name])
-          statement << " #{schema[:primitive]}"
+          statement = "#{quote_name(schema[:name])} #{schema[:primitive]}"
 
           length = schema[:length]
 
