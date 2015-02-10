@@ -184,9 +184,8 @@ module DataMapper
 
     def self.include_migration_api
       DataMapper.extend(SingletonMethods)
-      [ :Repository, :Model ].each do |name|
-        DataMapper.const_get(name).send(:include, const_get(name))
-      end
+      DataMapper::Repository.send(:include, Repository)
+      DataMapper::Model.send(:include, Model)
       DataMapper::Model.append_extensions(Model)
       Adapters::AbstractAdapter.descendants.each do |adapter_class|
         Adapters.include_migration_api(DataMapper::Inflector.demodulize(adapter_class.name))

@@ -7,9 +7,8 @@ module DataMapper
 
       def self.included(base)
         DataMapper.extend(Migrations::SingletonMethods)
-        [ :Repository, :Model ].each do |name|
-          DataMapper.const_get(name).send(:include, Migrations.const_get(name))
-        end
+        DataMapper::Repository.send(:include, Migrations::Repository)
+        DataMapper::Model.send(:include, Migrations::Model)
       end
 
       # @api semipublic
