@@ -199,21 +199,21 @@ RSpec.describe DataMapper::Migrations do
             end
 
             it 'should return true' do
-              @response.should be(true)
+              expect(@response).to be(true)
             end
 
             it "should create a #{statement} column" do
-              @output.last.should =~ %r{\ACREATE TABLE `blog_articles` \(`id` #{Regexp.escape(statement)} NOT NULL, PRIMARY KEY\(`id`\)\) ENGINE = InnoDB CHARACTER SET [a-z\d]+ COLLATE (?:[a-z\d](?:_?[a-z\d]+)*)\z}
+              expect(@output.last).to match(%r{\ACREATE TABLE `blog_articles` \(`id` #{Regexp.escape(statement)} NOT NULL, PRIMARY KEY\(`id`\)\) ENGINE = InnoDB CHARACTER SET [a-z\d]+ COLLATE (?:[a-z\d](?:_?[a-z\d]+)*)\z})
             end
 
             [ :min, :max ].each do |key|
               next unless value = options[key]
               it "should allow the #{key} value #{value} to be stored" do
                 pending_if "#{value} causes problem with JRuby 1.5.2 parser", RUBY_PLATFORM[/java/] && JRUBY_VERSION < '1.5.6' && value == -9223372036854775808 do
-                  lambda {
+                  expect {
                     resource = @model.create(@property => value)
-                    @model.first(@property => value).should == resource
-                  }.should_not raise_error
+                    expect(@model.first(@property => value)).to eq(resource)
+                  }.not_to raise_error
                 end
               end
             end
@@ -250,11 +250,11 @@ RSpec.describe DataMapper::Migrations do
             end
 
             it 'should return true' do
-              @response.should be(true)
+              expect(@response).to be(true)
             end
 
             it "should create a #{statement} column" do
-              @output.last.should =~ %r{\ACREATE TABLE `blog_articles` \(`id` INT\(10\) UNSIGNED NOT NULL AUTO_INCREMENT, `body` #{Regexp.escape(statement)}, PRIMARY KEY\(`id`\)\) ENGINE = InnoDB CHARACTER SET [a-z\d]+ COLLATE (?:[a-z\d](?:_?[a-z\d]+)*)\z}
+              expect(@output.last).to match(%r{\ACREATE TABLE `blog_articles` \(`id` INT\(10\) UNSIGNED NOT NULL AUTO_INCREMENT, `body` #{Regexp.escape(statement)}, PRIMARY KEY\(`id`\)\) ENGINE = InnoDB CHARACTER SET [a-z\d]+ COLLATE (?:[a-z\d](?:_?[a-z\d]+)*)\z})
             end
           end
         end
@@ -282,11 +282,11 @@ RSpec.describe DataMapper::Migrations do
             end
 
             it 'should return true' do
-              @response.should be(true)
+              expect(@response).to be(true)
             end
 
             it "should create a #{statement} column" do
-              @output.last.should =~ %r{\ACREATE TABLE `blog_articles` \(`id` INT\(10\) UNSIGNED NOT NULL AUTO_INCREMENT, `title` #{Regexp.escape(statement)}, PRIMARY KEY\(`id`\)\) ENGINE = InnoDB CHARACTER SET [a-z\d]+ COLLATE (?:[a-z\d](?:_?[a-z\d]+)*)\z}
+              expect(@output.last).to match(%r{\ACREATE TABLE `blog_articles` \(`id` INT\(10\) UNSIGNED NOT NULL AUTO_INCREMENT, `title` #{Regexp.escape(statement)}, PRIMARY KEY\(`id`\)\) ENGINE = InnoDB CHARACTER SET [a-z\d]+ COLLATE (?:[a-z\d](?:_?[a-z\d]+)*)\z})
             end
           end
         end
@@ -301,7 +301,7 @@ RSpec.describe DataMapper::Migrations do
         end
 
         it "should create a VARCHAR(50) column with a default of '0'" do
-          @output.last.should =~ %r{\ACREATE TABLE `blog_articles` \(`id` INT\(10\) UNSIGNED NOT NULL AUTO_INCREMENT, `number` VARCHAR\(50\) DEFAULT '0', PRIMARY KEY\(`id`\)\) ENGINE = InnoDB CHARACTER SET [a-z\d]+ COLLATE (?:[a-z\d](?:_?[a-z\d]+)*)\z}
+          expect(@output.last).to match(%r{\ACREATE TABLE `blog_articles` \(`id` INT\(10\) UNSIGNED NOT NULL AUTO_INCREMENT, `number` VARCHAR\(50\) DEFAULT '0', PRIMARY KEY\(`id`\)\) ENGINE = InnoDB CHARACTER SET [a-z\d]+ COLLATE (?:[a-z\d](?:_?[a-z\d]+)*)\z})
         end
       end
     end
@@ -358,21 +358,21 @@ RSpec.describe DataMapper::Migrations do
             end
 
             it 'should return true' do
-              @response.should be(true)
+              expect(@response).to be(true)
             end
 
             it "should create a #{statement} column" do
-              @output[-2].should == "CREATE TABLE \"blog_articles\" (\"id\" #{statement} NOT NULL, PRIMARY KEY(\"id\"))"
+              expect(@output[-2]).to eq("CREATE TABLE \"blog_articles\" (\"id\" #{statement} NOT NULL, PRIMARY KEY(\"id\"))")
             end
 
             [ :min, :max ].each do |key|
               next unless value = options[key]
               it "should allow the #{key} value #{value} to be stored" do
                 pending_if "#{value} causes problem with the JRuby < 1.6 parser", RUBY_PLATFORM =~ /java/ && JRUBY_VERSION < '1.6' && value == -9223372036854775808 do
-                  lambda {
+                  expect {
                     resource = @model.create(@property => value)
-                    @model.first(@property => value).should eql(resource)
-                  }.should_not raise_error
+                    expect(@model.first(@property => value)).to eql(resource)
+                  }.not_to raise_error
                 end
               end
             end
@@ -400,20 +400,20 @@ RSpec.describe DataMapper::Migrations do
             end
 
             it 'should return true' do
-              @response.should be(true)
+              expect(@response).to be(true)
             end
 
             it "should create a #{statement} column" do
-              @output[-2].should == "CREATE TABLE \"blog_articles\" (\"id\" #{statement} NOT NULL, PRIMARY KEY(\"id\"))"
+              expect(@output[-2]).to eq("CREATE TABLE \"blog_articles\" (\"id\" #{statement} NOT NULL, PRIMARY KEY(\"id\"))")
             end
 
             [ :min, :max ].each do |key|
               next unless value = options[key]
               it "should allow the #{key} value #{value} to be stored" do
-                lambda {
+                expect {
                   resource = @model.create(@property => value)
-                  @model.first(@property => value).should eql(resource)
-                }.should_not raise_error
+                  expect(@model.first(@property => value)).to eql(resource)
+                }.not_to raise_error
               end
             end
           end
@@ -442,11 +442,11 @@ RSpec.describe DataMapper::Migrations do
             end
 
             it 'should return true' do
-              @response.should be(true)
+              expect(@response).to be(true)
             end
 
             it "should create a #{statement} column" do
-              @output[-2].should == "CREATE TABLE \"blog_articles\" (\"id\" SERIAL NOT NULL, \"title\" #{statement}, PRIMARY KEY(\"id\"))"
+              expect(@output[-2]).to eq("CREATE TABLE \"blog_articles\" (\"id\" SERIAL NOT NULL, \"title\" #{statement}, PRIMARY KEY(\"id\"))")
             end
           end
         end
@@ -461,7 +461,7 @@ RSpec.describe DataMapper::Migrations do
         end
 
         it "should create a VARCHAR(50) column with a default of '0'" do
-          @output[-2].should == "CREATE TABLE \"blog_articles\" (\"id\" SERIAL NOT NULL, \"number\" VARCHAR(50) DEFAULT '0', PRIMARY KEY(\"id\"))"
+          expect(@output[-2]).to eq("CREATE TABLE \"blog_articles\" (\"id\" SERIAL NOT NULL, \"number\" VARCHAR(50) DEFAULT '0', PRIMARY KEY(\"id\"))")
         end
       end
     end
@@ -522,21 +522,21 @@ RSpec.describe DataMapper::Migrations do
             end
 
             it 'should return true' do
-              @response.should be(true)
+              expect(@response).to be(true)
             end
 
             it "should create a #{statement} column" do
-              @output.last.should == "CREATE TABLE \"blog_articles\" (\"id\" #{statement} NOT NULL, PRIMARY KEY(\"id\"))"
+              expect(@output.last).to eq("CREATE TABLE \"blog_articles\" (\"id\" #{statement} NOT NULL, PRIMARY KEY(\"id\"))")
             end
 
             [ :min, :max ].each do |key|
               next unless value = options[key]
               it "should allow the #{key} value #{value} to be stored" do
                 pending_if "#{value} causes problem with JRuby 1.5.2 parser", RUBY_PLATFORM =~ /java/ && value == -9223372036854775808 do
-                  lambda {
+                  expect {
                     resource = @model.create(@property => value)
-                    @model.first(@property => value).should eql(resource)
-                  }.should_not raise_error
+                    expect(@model.first(@property => value)).to eql(resource)
+                  }.not_to raise_error
                 end
               end
             end

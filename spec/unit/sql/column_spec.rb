@@ -7,7 +7,7 @@ RSpec.describe SQL::Column do
 
   %w{name type not_null default_value primary_key unique}.each do |meth|
     it "should have a ##{meth} attribute" do
-      @column.should respond_to(meth.intern)
+      expect(@column).to respond_to(meth.intern)
     end
   end
 

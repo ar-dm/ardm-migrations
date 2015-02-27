@@ -11,8 +11,8 @@ RSpec.describe 'The migration runner' do
 
     describe 'empty migration runner' do
       it "should return an empty array if no migrations have been defined" do
-        migrations.should be_kind_of(Array)
-        migrations.size.should == 0
+        expect(migrations).to be_kind_of(Array)
+        expect(migrations.size).to eq(0)
       end
     end
 
@@ -31,20 +31,20 @@ RSpec.describe 'The migration runner' do
       describe '#migration' do
 
         it 'should create a new migration object, and add it to the list of migrations' do
-          migrations.should be_kind_of(Array)
-          migrations.size.should == 1
-          migrations.first.name.should == "create_people_table"
+          expect(migrations).to be_kind_of(Array)
+          expect(migrations.size).to eq(1)
+          expect(migrations.first.name).to eq("create_people_table")
         end
 
         it 'should allow multiple migrations to be added' do
           migration( 2, :add_dob_to_people) { }
           migration( 2, :add_favorite_pet_to_people) { }
           migration( 3, :add_something_else_to_people) { }
-          migrations.size.should == 4
+          expect(migrations.size).to eq(4)
         end
 
         it 'should raise an error on adding with a duplicated name' do
-          lambda { migration( 1, :create_people_table) { } }.should raise_error(RuntimeError, /Migration name conflict/)
+          expect { migration( 1, :create_people_table) { } }.to raise_error(RuntimeError, /Migration name conflict/)
         end
 
       end
@@ -59,7 +59,7 @@ RSpec.describe 'The migration runner' do
         it 'calling migrate_up! should migrate up all the migrations' do
           # add our expectation that migrate_up should be called
           migrations.each do |m|
-            m.should_receive(:perform_up)
+            expect(m).to receive(:perform_up)
           end
           migrate_up!
         end
@@ -67,9 +67,9 @@ RSpec.describe 'The migration runner' do
         it 'calling migrate_up! with an arguement should only migrate to that level' do
           migrations.each do |m|
             if m.position <= 2
-              m.should_receive(:perform_up)
+              expect(m).to receive(:perform_up)
             else
-              m.should_not_receive(:perform_up)
+              expect(m).not_to receive(:perform_up)
             end
           end
           migrate_up!(2)
@@ -78,7 +78,7 @@ RSpec.describe 'The migration runner' do
         it 'calling migrate_down! should migrate down all the migrations' do
           # add our expectation that migrate_up should be called
           migrations.each do |m|
-            m.should_receive(:perform_down)
+            expect(m).to receive(:perform_down)
           end
           migrate_down!
         end

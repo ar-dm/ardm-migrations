@@ -11,28 +11,28 @@ RSpec.describe "SQLite3 Extensions" do
   end
 
   it 'should support schema-level transactions' do
-    @se.supports_schema_transactions?.should be(true)
+    expect(@se.supports_schema_transactions?).to be(true)
   end
 
   it 'should support the serial column attribute' do
-    @se.supports_serial?.should be(true)
+    expect(@se.supports_serial?).to be(true)
   end
 
   it 'should create a table object from the name' do
-    table = mock('SQLite3 Table')
-    SQL::Sqlite::Table.should_receive(:new).with(@se, 'users').and_return(table)
+    table = double('SQLite3 Table')
+    expect(SQL::Sqlite::Table).to receive(:new).with(@se, 'users').and_return(table)
 
-    @se.table('users').should == table
+    expect(@se.table('users')).to eq(table)
   end
 
   describe 'recreating the database' do
     before do
-      uri = mock('URI', :path => '/foo/bar.db')
+      uri = double('URI', :path => '/foo/bar.db')
       @se.instance_variable_set('@uri', uri)
     end
 
     it 'should rm the db file' do
-      FileUtils.should_receive(:rm_f).with('/foo/bar.db')
+      expect(FileUtils).to receive(:rm_f).with('/foo/bar.db')
       @se.recreate_database
     end
 
@@ -40,40 +40,40 @@ RSpec.describe "SQLite3 Extensions" do
 
   describe 'Table' do
     before do
-      @cs1 = mock('Column Struct')
-      @cs2 = mock('Column Struct')
-      @adapter = mock('adapter')
-      @adapter.stub!(:table_info).with('users').and_return([@cs1, @cs2])
+      @cs1 = double('Column Struct')
+      @cs2 = double('Column Struct')
+      @adapter = double('adapter')
+      allow(@adapter).to receive(:table_info).with('users').and_return([@cs1, @cs2])
 
-      @col1 = mock('SQLite3 Column')
-      @col2 = mock('SQLite3 Column')
+      @col1 = double('SQLite3 Column')
+      @col2 = double('SQLite3 Column')
     end
 
     it 'should initialize columns by querying the table' do
-      SQL::Sqlite::Column.should_receive(:new).with(@cs1).and_return(@col1)
-      SQL::Sqlite::Column.should_receive(:new).with(@cs2).and_return(@col2)
-      @adapter.should_receive(:table_info).with('users').and_return([@cs1,@cs2])
+      expect(SQL::Sqlite::Column).to receive(:new).with(@cs1).and_return(@col1)
+      expect(SQL::Sqlite::Column).to receive(:new).with(@cs2).and_return(@col2)
+      expect(@adapter).to receive(:table_info).with('users').and_return([@cs1,@cs2])
       SQL::Sqlite::Table.new(@adapter, 'users')
     end
 
     it 'should create SQLite3 Column objects from the returned column structs' do
-      SQL::Sqlite::Column.should_receive(:new).with(@cs1).and_return(@col1)
-      SQL::Sqlite::Column.should_receive(:new).with(@cs2).and_return(@col2)
+      expect(SQL::Sqlite::Column).to receive(:new).with(@cs1).and_return(@col1)
+      expect(SQL::Sqlite::Column).to receive(:new).with(@cs2).and_return(@col2)
       SQL::Sqlite::Table.new(@adapter, 'users')
     end
 
     it 'should set the @columns to the looked-up columns' do
-      SQL::Sqlite::Column.should_receive(:new).with(@cs1).and_return(@col1)
-      SQL::Sqlite::Column.should_receive(:new).with(@cs2).and_return(@col2)
+      expect(SQL::Sqlite::Column).to receive(:new).with(@cs1).and_return(@col1)
+      expect(SQL::Sqlite::Column).to receive(:new).with(@cs2).and_return(@col2)
       t = SQL::Sqlite::Table.new(@adapter, 'users')
-      t.columns.should == [ @col1, @col2 ]
+      expect(t.columns).to eq([ @col1, @col2 ])
     end
 
   end
 
   describe 'Column' do
     before do
-      @cs = mock('Struct',
+      @cs = double('Struct',
                  :name       => 'id',
                  :type       => 'integer',
                  :dflt_value => 123,
@@ -83,23 +83,23 @@ RSpec.describe "SQLite3 Extensions" do
     end
 
     it 'should set the name from the name value' do
-      @c.name.should == 'id'
+      expect(@c.name).to eq('id')
     end
 
     it 'should set the type from the type value' do
-      @c.type.should == 'integer'
+      expect(@c.type).to eq('integer')
     end
 
     it 'should set the default_value from the dflt_value value' do
-      @c.default_value.should == 123
+      expect(@c.default_value).to eq(123)
     end
 
     it 'should set the primary_key from the pk value' do
-      @c.primary_key.should == true
+      expect(@c.primary_key).to eq(true)
     end
 
     it 'should set not_null based on the notnull value' do
-      @c.not_null.should == true
+      expect(@c.not_null).to eq(true)
     end
 
   end
