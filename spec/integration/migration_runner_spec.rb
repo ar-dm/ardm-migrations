@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'The migration runner' do
+RSpec.describe 'The migration runner' do
 
   supported_by :postgres, :mysql, :sqlite, :oracle, :sqlserver do
 

@@ -5,7 +5,7 @@ class SqliteExtension
   include SQL::Sqlite
 end
 
-describe "SQLite3 Extensions" do
+RSpec.describe "SQLite3 Extensions" do
   before do
     @se = SqliteExtension.new
   end

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "A Migration" do
+RSpec.describe "A Migration" do
 
   supported_by :postgres, :mysql, :sqlite, :oracle, :sqlserver do
 

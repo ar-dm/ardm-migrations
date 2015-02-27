@@ -1,5 +1,5 @@
-require 'spec'
-require 'isolated/require_spec'
+require 'rspec'
+require 'isolated/require_examples'
 require 'dm-core/spec/setup'
 
 # To really test this behavior, this spec needs to be run in isolation and not
@@ -7,7 +7,7 @@ require 'dm-core/spec/setup'
 
 if %w[ postgres mysql sqlite oracle sqlserver ].include?(ENV['ADAPTER'])
 
-  describe "require 'dm-migrations' before calling DataMapper.setup" do
+  RSpec.describe "require 'dm-migrations' before calling DataMapper.setup" do
 
     before(:all) do
 
@@ -23,7 +23,7 @@ if %w[ postgres mysql sqlite oracle sqlserver ].include?(ENV['ADAPTER'])
 
     end
 
-    it_should_behave_like "require 'dm-migrations'"
+    include_examples "require 'dm-migrations'"
 
   end
 

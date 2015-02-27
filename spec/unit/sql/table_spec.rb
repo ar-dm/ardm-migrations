@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe SQL::Table do
+RSpec.describe SQL::Table do
   before do
     @table = SQL::Table.new
   end

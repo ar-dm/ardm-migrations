@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Migration' do
+RSpec.describe 'Migration' do
   supported_by :postgres, :mysql, :sqlite do
     before do
       @adapter = mock('adapter', :class => DataMapper::Spec.adapter.class)

@@ -1,4 +1,4 @@
-shared_examples_for "require 'dm-migrations'" do
+RSpec.shared_examples_for "require 'dm-migrations'" do
 
   it "should include the migration api in the DataMapper namespace" do
     DataMapper.respond_to?(:migrate!                ).should be(true)

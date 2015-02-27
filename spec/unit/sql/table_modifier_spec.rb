@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'SQL module' do
+RSpec.describe 'SQL module' do
   describe 'TableModifier' do
     before do
       @adapter = mock('adapter')

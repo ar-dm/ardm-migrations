@@ -2,7 +2,7 @@ require 'spec_helper'
 
 require 'dm-migrations/auto_migration'
 
-describe DataMapper::Migrations do
+RSpec.describe DataMapper::Migrations do
   def capture_log(mod)
     original, mod.logger = mod.logger, DataObjects::Logger.new(@log = StringIO.new, :debug)
     yield
@@ -15,7 +15,7 @@ describe DataMapper::Migrations do
     mod.logger = original
   end
 
-  before :all do
+  before :each do
     class DataMapper::Property::NumericString < DataMapper::Property::String
       default 0
 
@@ -27,7 +27,7 @@ describe DataMapper::Migrations do
   end
 
   supported_by :mysql do
-    before :all do
+    before :each do
       module ::Blog
         class Article
           include DataMapper::Resource
@@ -192,7 +192,7 @@ describe DataMapper::Migrations do
           options[:max] = max if max
 
           describe "with a min of #{min} and a max of #{max}" do
-            before :all do
+            before :each do
               @property = @model.property(:id, Integer, options)
 
               @response = capture_log(DataObjects::Mysql) { @model.auto_migrate! }
@@ -222,7 +222,7 @@ describe DataMapper::Migrations do
       end
 
       describe 'Text property' do
-        before :all do
+        before :each do
           @model.property(:id, DataMapper::Property::Serial)
         end
 
@@ -243,7 +243,7 @@ describe DataMapper::Migrations do
           options[:length] = length if length
 
           describe "with a length of #{length}" do
-            before :all do
+            before :each do
               @property = @model.property(:body, DataMapper::Property::Text, options)
 
               @response = capture_log(DataObjects::Mysql) { @model.auto_migrate! }
@@ -261,7 +261,7 @@ describe DataMapper::Migrations do
       end
 
       describe 'String property' do
-        before :all do
+        before :each do
           @model.property(:id, DataMapper::Property::Serial)
         end
 
@@ -275,7 +275,7 @@ describe DataMapper::Migrations do
           options[:length] = length if length
 
           describe "with a length of #{length}" do
-            before :all do
+            before :each do
               @property = @model.property(:title, String, options)
 
               @response = capture_log(DataObjects::Mysql) { @model.auto_migrate! }
@@ -293,7 +293,7 @@ describe DataMapper::Migrations do
       end
 
       describe 'NumericString property' do
-        before :all do
+        before :each do
           @model.property(:id,     DataMapper::Property::Serial)
           @model.property(:number, DataMapper::Property::NumericString)
 
@@ -308,7 +308,7 @@ describe DataMapper::Migrations do
   end
 
   supported_by :postgres do
-    before :all do
+    before :each do
       module ::Blog
         class Article
           include DataMapper::Resource
@@ -351,7 +351,7 @@ describe DataMapper::Migrations do
           options[:max] = max if max
 
           describe "with a min of #{min} and a max of #{max}" do
-            before :all do
+            before :each do
               @property = @model.property(:id, Integer, options)
 
               @response = capture_log(DataObjects::Postgres) { @model.auto_migrate! }
@@ -393,7 +393,7 @@ describe DataMapper::Migrations do
           options[:max] = max if max
 
           describe "with a max of #{max}" do
-            before :all do
+            before :each do
               @property = @model.property(:id, DataMapper::Property::Serial, options)
 
               @response = capture_log(DataObjects::Postgres) { @model.auto_migrate! }
@@ -421,7 +421,7 @@ describe DataMapper::Migrations do
       end
 
       describe 'String property' do
-        before :all do
+        before :each do
           @model.property(:id, DataMapper::Property::Serial)
         end
 
@@ -435,7 +435,7 @@ describe DataMapper::Migrations do
           options[:length] = length if length
 
           describe "with a length of #{length}" do
-            before :all do
+            before :each do
               @property = @model.property(:title, String, options)
 
               @response = capture_log(DataObjects::Postgres) { @model.auto_migrate! }
@@ -453,7 +453,7 @@ describe DataMapper::Migrations do
       end
 
       describe 'NumericString property' do
-        before :all do
+        before :each do
           @model.property(:id,     DataMapper::Property::Serial)
           @model.property(:number, DataMapper::Property::NumericString)
 
@@ -468,7 +468,7 @@ describe DataMapper::Migrations do
   end
 
   supported_by :sqlserver do
-    before :all do
+    before :each do
       module ::Blog
         class Article
           include DataMapper::Resource
@@ -515,7 +515,7 @@ describe DataMapper::Migrations do
           options[:max] = max if max
 
           describe "with a min of #{min} and a max of #{max}" do
-            before :all do
+            before :each do
               @property = @model.property(:id, Integer, options)
 
               @response = capture_log(DataObjects::Sqlserver) { @model.auto_migrate! }

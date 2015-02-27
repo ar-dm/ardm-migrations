@@ -5,7 +5,7 @@ class PostgresExtension
   include SQL::Postgres
 end
 
-describe "Postgres Extensions" do
+RSpec.describe "Postgres Extensions" do
   before do
     @pe = PostgresExtension.new
   end

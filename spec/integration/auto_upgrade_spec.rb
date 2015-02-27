@@ -2,7 +2,7 @@ require 'spec_helper'
 
 require 'dm-migrations/auto_migration'
 
-describe DataMapper::Migrations do
+RSpec.describe DataMapper::Migrations do
   def capture_log(mod)
     original, mod.logger = mod.logger, DataObjects::Logger.new(@log = StringIO.new, :debug)
     yield

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe SQL::Column do
+RSpec.describe SQL::Column do
   before do
     @column = SQL::Column.new
   end

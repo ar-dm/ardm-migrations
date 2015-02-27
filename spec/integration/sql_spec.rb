@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "SQL generation" do
+RSpec.describe "SQL generation" do
 
   supported_by :postgres, :mysql, :sqlite, :oracle, :sqlserver do
 
